@@ -1,0 +1,12 @@
+[project]
+name = "yuna"
+version = "0.1.0"
+description = "A desktop application for reading and editing digital books"
+requires-python = ">=3.14"
+
+dependencies = [
+    "PyQt6",
+]
+
+[project.scripts]
+yuna = "app.main:main"
