@@ -29,9 +29,10 @@ class MainWindow(QMainWindow):
 
         display_layout = QStackedLayout()
         library = Library("library")
-        display_layout.addWidget(library.widget)
+        display_layout.addWidget(library)
+        print(library.objectName())
 
-        main_layout.addWidget(nav_bar.widget, 1)
+        main_layout.addWidget(nav_bar, 1)
         main_layout.addLayout(display_layout, 29)
 
 
