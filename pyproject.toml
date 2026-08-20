@@ -1,6 +1,6 @@
 [project]
 name = "yuna"
-version = "0.1.0"
+version = "0.2.0"
 description = "A desktop application for reading and editing digital books"
 requires-python = ">=3.14"
 

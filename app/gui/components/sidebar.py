@@ -8,10 +8,10 @@ class Sidebar(QWidget):
         self.setObjectName(style_ID)
         self.setMinimumWidth(0)
 
-        layout = QVBoxLayout()
-        self.setLayout(layout)
+        self.lay_out = QVBoxLayout()
+        self.setLayout(self.lay_out)
 
-    # Add this method so QSS can draw backgrounds on custom QWidgets
+    # Allows custom widgets to use css
     def paintEvent(self, event):
         opt = QStyleOption()
         opt.initFrom(self)
