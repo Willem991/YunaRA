@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QStyle, QStyleOption
-from PyQt6.QtGui import QPainter, QPixmap
-from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QPainter, QPixmap, QGuiApplication, QCursor
+from PyQt6.QtCore import Qt, QPropertyAnimation, QRect
 from pathlib import Path
 import uuid
 
@@ -8,13 +8,14 @@ class LibraryCard(QWidget):
     def __init__(self, img_url: str, title: str, file_url:str):
         super().__init__()
 
-        self.setObjectName(str(uuid.uuid4()))
+        self.setObjectName("library_card")
+        print("OBJECT NAME:", self.objectName())
         self.title = title
         self.img_url = img_url
         self.file_url = file_url
         self.setFixedSize(230, 324)
 
-                # Image
+        # Image
         self.image_label = QLabel()
         self.image_label.setObjectName("card_image")
 
@@ -34,20 +35,50 @@ class LibraryCard(QWidget):
         self.lay_out.setContentsMargins(0, 0, 0, 0)
         self.lay_out.setSpacing(0)
 
-        # Child widgets
-        title_lbl = QLabel(self.title)
+        #Image Animations
+        self.image_animation = QPropertyAnimation(self.image_label, b"geometry")
+        self.image_animation.setDuration(100)
 
         # Add child widgets
-        #self.lay_out.addWidget(title_lbl)
         self.lay_out.addWidget(self.image_label)
 
         self.setLayout(self.lay_out)
+
+    def enterEvent(self, event):
+        QGuiApplication.setOverrideCursor(QCursor(Qt.CursorShape.PointingHandCursor));
+
+        self.image_animation.stop()
+
+        self.image_animation.setStartValue(self.image_label.geometry())
+        self.image_animation.setEndValue(
+            QRect(0, 0, 240, 338)
+        )
+
+        self.image_animation.start()
+
+        super().enterEvent(event)
+
+
+    def leaveEvent(self, event):
+        self.image_animation.stop()
+
+        self.image_animation.setStartValue(self.image_label.geometry())
+        self.image_animation.setEndValue(
+            QRect(0, 0, 230, 324)
+        )
+
+        self.image_animation.start()
+
+        QGuiApplication.restoreOverrideCursor();
+
+        super().leaveEvent(event)
 
     def delete_book(self):
         Path(self.img_url).unlink()
         Path(self.file_url).unlink()
         self.setParent(None)
         self.deleteLater()
+        
 
     # Allows custom widgets to use css
     def paintEvent(self, event):

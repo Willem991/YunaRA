@@ -4,6 +4,9 @@ from pathlib import Path
 import shutil
 import os
 import pymupdf
+import subprocess
+
+from app.services.epub_loader import extract_epub_cover
 
 
 
@@ -76,7 +79,7 @@ class FileLoader(QRunnable):
                     break
 
             elif extension == ".epub":
-                pass
+                output = extract_epub_cover(destination, pix_dest)
 
             else:
                 path_dest.unlink(missing_ok=True)

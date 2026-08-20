@@ -50,20 +50,6 @@ class AdditionCard(QWidget):
             path
         )
 
-        print(image)
-
-        library_card.setStyleSheet(f"""
-            QWidget {{
-                
-                background-color: #252a30;   
-
-                border: none;
-                border-radius: 12px;
-
-                margin: 20px;
-            }}
-        """)
-
         self.library.insertWidget(0,library_card)
 
     def show_error(self, message):

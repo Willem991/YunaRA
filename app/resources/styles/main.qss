@@ -48,3 +48,11 @@ QScrollArea{
 #add_book_card:hover {
     background-color: #2b3138;
 }
+
+#library_card{
+    margin: 20px;
+}
+
+#library_card QLabel {
+    margin: 20px;
+}
