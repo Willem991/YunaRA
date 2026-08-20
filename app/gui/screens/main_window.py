@@ -51,10 +51,8 @@ class MainWindow(QMainWindow):
 
         display_layout.addWidget(scroll_area)
 
-        addition_card = AdditionCard("add_book_card")
+        addition_card = AdditionCard("add_book_card", library.lay_out)
         library.lay_out.addWidget(addition_card)
-        for i in range(0,30):
-            library.lay_out.addWidget(AdditionCard("add_book_card"))
 
         # Adding in the main holding widget
         central_widget = QWidget()

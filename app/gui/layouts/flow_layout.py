@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import sys
 from PyQt6.QtCore import Qt, QMargins, QPoint, QRect, QSize
-from PyQt6.QtWidgets import QApplication, QLayout, QPushButton, QSizePolicy, QWidget
+from PyQt6.QtWidgets import QApplication, QLayout, QPushButton, QSizePolicy, QWidget, QWidgetItem
 
 
 class Window(QWidget):
@@ -37,6 +37,27 @@ class FlowLayout(QLayout):
 
     def addItem(self, item):
         self._item_list.append(item)
+
+    def insertWidget(self, index, widget):
+        widget.setParent(self.parentWidget())
+
+        item = QWidgetItem(widget)
+
+        index = max(0, min(index, len(self._item_list)))
+
+        self._item_list.insert(index, item)
+
+        widget.show()
+
+        self.invalidate()
+        self.activate()
+
+    def insertItem(self, index, item):
+        """Inserts a QLayoutItem directly into the internal list and triggers a relayout."""
+        # Bound the index within valid list constraints
+        index = max(0, min(index, len(self._item_list)))
+        self._item_list.insert(index, item)
+        self.invalidate()  # Notifies Qt that the layout has changed and needs an update
 
     def count(self):
         return len(self._item_list)

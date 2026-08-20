@@ -1,19 +1,21 @@
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QStyle, QStyleOption, QLabel, QFileDialog, QMessageBox
-from PyQt6.QtGui import QPixmap
-from PyQt6.QtGui import QPainter
+from PyQt6.QtGui import QPixmap, QPainter
 from PyQt6.QtCore import Qt, QThreadPool
 import shutil
 import os
 
 from app.services.file_loader import FileLoader
+from app.gui.layouts.flow_layout import FlowLayout
+from app.gui.components.library_card import LibraryCard
 
 class AdditionCard(QWidget):
-    def __init__(self, style_ID: str):
+    def __init__(self, style_ID: str, library_layout: FlowLayout):
         super().__init__()
 
         self.setObjectName(style_ID)
-
+        self.library = library_layout
         self.lay_out = QVBoxLayout()
+        self.setFixedSize(230, 324)
 
         #Def child widgets
         img = QLabel()
@@ -30,12 +32,46 @@ class AdditionCard(QWidget):
         self.lay_out.addStretch()
         self.lay_out.addWidget(img, alignment=Qt.AlignmentFlag.AlignCenter)
         self.lay_out.addStretch() 
+        self.lay_out.setContentsMargins(0, 0, 0, 0)
+        self.lay_out.setSpacing(0)
 
         self.setLayout(self.lay_out)
 
         #Setting up concurrency
         self.threadpool = QThreadPool()
         thread_count = self.threadpool.maxThreadCount()
+
+    def add_library_card(self, image, title, path):
+        image = os.path.abspath(image).replace("\\", "/")
+
+        library_card = LibraryCard(
+            image,
+            title,
+            path
+        )
+
+        print(image)
+
+        library_card.setStyleSheet(f"""
+            QWidget {{
+                
+                background-color: #252a30;   
+
+                border: none;
+                border-radius: 12px;
+
+                margin: 20px;
+            }}
+        """)
+
+        self.library.insertWidget(0,library_card)
+
+    def show_error(self, message):
+        QMessageBox.critical(
+            self,
+            "Upload Failed",
+            message
+        )
 
     # Allows custom widgets to use css
     def paintEvent(self, event):
@@ -52,7 +88,12 @@ class AdditionCard(QWidget):
 
             if files:
                 worker = FileLoader(files)
+
+                worker.signals.finished.connect(self.add_library_card)
+                worker.signals.error.connect(self.show_error)
+
                 self.threadpool.start(worker)
+
             else:
                 QMessageBox.critical(
                     None,
