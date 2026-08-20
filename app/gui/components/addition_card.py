@@ -1,22 +1,21 @@
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QStyle, QStyleOption
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QPushButton, QStyle, QStyleOption
 from PyQt6.QtGui import QPainter
+from PyQt6.QtCore import Qt
 
-class LibraryCard(QWidget):
-    def __init__(self, style_ID: str, img_url: str, name: str):
+class AdditionCard(QWidget):
+    def __init__(self, style_ID: str):
         super().__init__()
 
         self.setObjectName(style_ID)
 
         self.lay_out = QVBoxLayout()
 
-        self.img = img_url
-        self.name = name
+        #Def child widgets
 
-        # Child widgets
-        title = QLabel(name)
-
-        # Add child widgets
-        self.lay_out.addWidget(title)
+        #Add child widgets
+        self.lay_out.addStretch()
+        self.lay_out.addWidget(QPushButton("Hello"), alignment=Qt.AlignmentFlag.AlignCenter)
+        self.lay_out.addStretch() 
 
         self.setLayout(self.lay_out)
 
