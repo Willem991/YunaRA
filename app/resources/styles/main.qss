@@ -55,38 +55,6 @@ QScrollArea{
     background-color: #2b3138;
 }
 
-#add_book_btn {
-    background-color: #303030;
-    color: #e5e5e5;
-
-    border: 3px solid #d0d0d0;
-    border-radius: 35px;
-
-    font-size: 28px;
-    font-weight: bold;
-
-    min-width: 70px;
-    max-width: 70px;
-    min-height: 70px;
-    max-height: 70px;
-}
-
-#add_book_btn:hover {
-    background-color: #383838;
-    border-color: #ffffff;
-
-    min-width: 74px;
-    max-width: 74px;
-    min-height: 74px;
-    max-height: 74px;
-}
-
-#add_book_btn:pressed {
-    background-color: #282828;
-    border-color: #bdbdbd;
-
-    min-width: 67px;
-    max-width: 67px;
-    min-height: 67px;
-    max-height: 67px;
+#add_icon{
+    
 }
