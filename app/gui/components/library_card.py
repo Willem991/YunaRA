@@ -2,7 +2,9 @@ from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QStyle, QStyleOption
 from PyQt6.QtGui import QPainter, QPixmap, QGuiApplication, QCursor
 from PyQt6.QtCore import Qt, QPropertyAnimation, QRect
 from pathlib import Path
+from PyQt6.QtWidgets import QMenu
 import uuid
+import os
 
 class LibraryCard(QWidget):
     def __init__(self, img_url: str, title: str, file_url:str):
@@ -78,6 +80,34 @@ class LibraryCard(QWidget):
         Path(self.file_url).unlink()
         self.setParent(None)
         self.deleteLater()
+
+    def mouseReleaseEvent(self, e):
+        if e.button() == Qt.MouseButton.LeftButton:
+            os.startfile(self.file_url)
+        import os
+
+    def mouseReleaseEvent(self, e):
+        if e.button() == Qt.MouseButton.LeftButton:
+            os.startfile(self.file_url)
+
+        elif e.button() == Qt.MouseButton.RightButton:
+            menu = QMenu(self)
+
+            open_action = menu.addAction("Open")
+            delete_action = menu.addAction("Delete")
+
+            action = menu.exec(
+                self.mapToGlobal(e.position().toPoint())
+            )
+
+            if action == open_action:
+                os.startfile(self.file_url)
+
+            elif action == delete_action:
+                self.delete_book()
+
+        super().mouseReleaseEvent(e)
+
         
 
     # Allows custom widgets to use css
