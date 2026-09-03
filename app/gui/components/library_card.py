@@ -3,6 +3,7 @@ from PyQt6.QtGui import QPainter, QPixmap, QGuiApplication, QCursor
 from PyQt6.QtCore import Qt, QPropertyAnimation, QRect
 from pathlib import Path
 import uuid
+import os
 
 class LibraryCard(QWidget):
     def __init__(self, img_url: str, title: str, file_url:str):
@@ -78,6 +79,9 @@ class LibraryCard(QWidget):
         Path(self.file_url).unlink()
         self.setParent(None)
         self.deleteLater()
+
+    def mouseReleaseEvent(self, e):
+        os.startfile(self.file_url)
         
 
     # Allows custom widgets to use css
